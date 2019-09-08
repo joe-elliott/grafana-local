@@ -15,7 +15,9 @@ There are two stacks at present.  Each stack starts up the listed applications o
   - Jaeger:     http://localhost:16686
   - Promtail:   http://localhost:9080
 
-After running `docker-compose up` navigate to http://localhost:3000 and use Grafana to visualize the metrics/logs that are being stored.  This is your primary way to see the data that Loki or Cortex are storing.
+After running `docker-compose up` navigate to http://localhost:3000 and use Grafana to visualize the metrics/logs that are being stored.  This is your primary way to see the data that Loki or Cortex are storing.  Username/password is admin/admin.  I'd recommend navigating to the Explore tab and checking out available metrics/log streams.
+
+It's also fun to check Jaeger at http://localhost:16686 to see traces.
 
 ## extra_hosts
 
