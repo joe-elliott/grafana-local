@@ -1,0 +1,49 @@
+#
+# Starts the latest cortex/grafana/prometheus/jaeger stack.  After running check:
+#  grafana:    http://localhost:3000
+#  cortex:     http://localhost:9009
+#  prometheus: http://localhost:9090
+#  jaeger:     http://localhost:16686
+#
+version: "3.5"
+services:
+  cortex:
+    image: quay.io/cortexproject/cortex:latest
+    volumes:
+    - ./config:/etc/config
+    entrypoint:
+    - /bin/cortex
+    - -config.file=/etc/config/single-process-config.yaml
+    ports:
+    - "9009:9009"
+    environment:
+    - JAEGER_AGENT_HOST=jaeger
+    - JAEGER_AGENT_PORT=6831
+    - JAEGER_SAMPLER_TYPE=const
+    - JAEGER_SAMPLER_PARAM=1
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+    - ./datasource:/etc/grafana/provisioning/datasources
+    ports:
+    - "3000:3000"
+    # extra_hosts:
+    # - "cortex:<host ip>"
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+    - ./config:/etc/config
+    entrypoint:
+    - /bin/prometheus
+    - --config.file=/etc/config/prometheus.yaml
+    ports:
+    - "9090:9090"
+    # extra_hosts:
+    # - "cortex:<host ip>"
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "6831:6831"
+  test-exporter:
+    image: quay.io/cortexproject/test-exporter
