@@ -46,7 +46,7 @@ services:
     volumes:
     - ./config:/etc/config
     - /var/log:/var/hostlog:ro
-    - /tmp/promtail-test:/tmp/promtail-test:ro
+    - ./fakelogs:/tmp/promtail-test:ro
     entrypoint:
     - /usr/bin/promtail
     - --config.file=/etc/config/promtail-local-config.yaml

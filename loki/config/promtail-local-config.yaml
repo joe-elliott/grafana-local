@@ -16,8 +16,10 @@ scrape_configs:
     labels:
       job: varlogs
       __path__: /var/hostlog/*log
+- job_name: fakelogs
+  static_configs:
   - targets:
       - localhost
     labels:
-      job: testlogs
+      job: fakelogs
       __path__: /tmp/promtail-test/*log
