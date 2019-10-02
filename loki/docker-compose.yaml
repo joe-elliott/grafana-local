@@ -8,28 +8,28 @@
 #
 version: "3.5"
 services:
-#  loki:
-#    image: grafana/loki:latest
-#    volumes:
-#    - ./config:/etc/config
-#    entrypoint:
-#    - /usr/bin/loki
-#    - -config.file=/etc/config/loki-local-config.yaml
-#    ports:
-#    - "3100:3100"
-#    environment:
-#    - JAEGER_AGENT_HOST=jaeger
-#    - JAEGER_AGENT_PORT=6831
-#    - JAEGER_SAMPLER_TYPE=const
-#    - JAEGER_SAMPLER_PARAM=1
+ loki:
+   image: grafana/loki:latest
+   volumes:
+   - ./config:/etc/config
+   entrypoint:
+   - /usr/bin/loki
+   - -config.file=/etc/config/loki-local-config.yaml
+   ports:
+   - "3100:3100"
+   environment:
+   - JAEGER_AGENT_HOST=jaeger
+   - JAEGER_AGENT_PORT=6831
+   - JAEGER_SAMPLER_TYPE=const
+   - JAEGER_SAMPLER_PARAM=1
   grafana:
     image: grafana/grafana:latest
     volumes:
     - ./datasource:/etc/grafana/provisioning/datasources
     ports:
     - "3000:3000"
-    extra_hosts:
-    - "loki:192.168.1.124"
+    # extra_hosts:
+    # - "loki:<host ip>"
   prometheus:
     image: prom/prometheus:latest
     volumes:
@@ -39,8 +39,8 @@ services:
     - --config.file=/etc/config/prometheus.yaml
     ports:
     - "9090:9090"
-    extra_hosts:
-    - "loki:192.168.1.124"
+    # extra_hosts:
+    # - "loki:<host ip>"
   promtail:
     image: grafana/promtail:latest
     volumes:
@@ -52,8 +52,8 @@ services:
     - --config.file=/etc/config/promtail-local-config.yaml
     ports:
     - "9080:9080"
-    extra_hosts:
-    - "loki:192.168.1.124"
+    # extra_hosts:
+    # - "loki:<host ip>"
   jaeger:
     image: jaegertracing/all-in-one:latest
     ports:
